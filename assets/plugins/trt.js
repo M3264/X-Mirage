@@ -1,5 +1,5 @@
 const translate = require("translate-google-api");
-const { Function, isPublic } = require('../lib/');
+const { Function, isPublic } = require('../../lib/');
 const config = require('../config');
 
 Function({
