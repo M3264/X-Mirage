@@ -1,4 +1,4 @@
-const { Function, getJson } = require('../lib/');
+const { Function, getJson } = require('../../lib/');
 const pm2 = require('pm2');
 const config = require('../config');
 
