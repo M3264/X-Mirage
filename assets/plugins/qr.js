@@ -1,7 +1,4 @@
-const {
-	Function,
-	isPublic
-} = require("../lib/");
+const { Function, isPublic } = require("../../lib/");
 const jimp = require('jimp')
 const QRReader = require('qrcode-reader')
 Function({
