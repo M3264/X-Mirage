@@ -2,10 +2,9 @@ const fs = require("fs").promises;
 const path = require("path");
 const config = require("./config");
 const connect = require("./lib/connection");
-const { makeWALogin } = require("@whiskeysockets/baileys");
+const { loadSession } = require("@whiskeysockets/baileys");
 const io = require("socket.io-client");
 const { getandRequirePlugins } = require("./assets/database/plugins");
-const HttpsProxyAgent = require("https-proxy-agent");
 
 global.__basedir = __dirname; // Set the base directory for the project
 
@@ -26,8 +25,8 @@ const readAndRequireFiles = async (directory) => {
 async function initialize() {
   console.log("X-Mirage");
   try {
-    const credsPath = path.join(__dirname, "/session/creds.json");
-    const sessionDir = path.join(__dirname, "/session");
+    const credsPath = path.join(__dirname, '/session/creds.json');
+    const sessionDir = path.join(__dirname, '/session');
 
     // Check if creds.json exists
     try {
@@ -45,7 +44,7 @@ async function initialize() {
         }
 
         console.log("loading session from session id...");
-        const credsData = await makeWALogin(config.SESSION_ID);
+        const credsData = await loadSession(config.SESSION_ID);
         await fs.writeFile(credsPath, JSON.stringify(credsData.creds, null, 2));
       }
     }
@@ -59,12 +58,6 @@ async function initialize() {
     await readAndRequireFiles(path.join(__dirname, "/assets/plugins/"));
     await getandRequirePlugins();
     console.log("✅ Plugins Installed!");
-
-    // Proxy setup
-    const proxyUrl = "http://localhost:8080"; // Change this to your proxy's URL and port
-    const proxyAgent = new HttpsProxyAgent(proxyUrl);
-    global.proxyAgent = proxyAgent;
-
     return await connect();
 
   } catch (error) {
